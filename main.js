@@ -1,4 +1,4 @@
-///
+//Game-Object
 
 function Cal() {
     this.cals =  [];
@@ -97,11 +97,6 @@ function elt(name, className, idName) {
     return elt;
 }
 
-//function display(ops) {
-//    drawSke();
-////    showCal(ops);
-////    setButton();
-//}
 
 var wrapper = $("#game");
 
@@ -165,7 +160,7 @@ function putIn(type) {
     spanId += 2;
 }
 
-var runGame;
+/* var runGame; */ 
 ///loop game
 function loop() {
     if(frames++ % 3 == 0) {
@@ -181,9 +176,9 @@ function loop() {
 
     if(lose || progressWidth > 520) {
         console.log('game over');
-        //play again
+        //play again 
         showResult();
-        cancelRequestAnimationFrame(loop);
+        cancelRequestAnimationFrame(loop); //error
     }
 
     requestAnimationFrame(loop);
