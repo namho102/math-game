@@ -47,7 +47,7 @@ function Cal() {
 //    return s;
 //};
 
-function scene() {
+function newScene() {
     var c = new Cal();
     c.init();
     while(c.ans() <= 0)
@@ -59,7 +59,7 @@ function Operations() {
     this.len = 0;
     this.opsArray = [];
     this.set = function() {
-        this.len = Math.floor(Math.random()*3 + 1);
+        this.len = Math.floor(Math.random()*2 + 1); //it's easy
         for(var i = 0; i < this.len; i++) {
             var type;
             if(Math.floor(Math.random()*2) >= 1)
@@ -152,52 +152,110 @@ function setButton(times) {
     $(b).show();
 
 }
+///Global variables
+var scene, progressWidth = 0, times = 0, frames = 0;
+var playerOps = [], spanId = 1, ans; // = scene.ans();
 
-//display();
+///player init
+function putIn(type) {
+    playerOps.push(new operator(type));
+    var id = '#' + spanId;
+    $(id).text(type);
+    spanId += 2;
+}
 
 
-///player control
+///loop game
+function loop() {
+    if(frames++ % 3 == 0) {
+        progressWidth += 5;
+        $('#progress').css('width',  progressWidth + 'px');
+    }
+
+    if(fini()) {
+        reset();
+        update();
+    }
+
+    if(progressWidth > 520) {
+        console.log('game over');
+
+       cancelRequestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+};
+
+
+function fini() {
+
+    /*function equal(a1, a2) {
+        if(a1) {
+            if(a1.length == a2.length) {
+                for(var i = 0; i < a2.length; i++)
+                    if(a1[i].type != a2[i].type) {
+                        return false;
+                    }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if(equal(playerOps, scene.Ops.opsArray)){
+        console.log('next level');
+        return true;
+    }*/
+
+    if(playerOps.length == scene.Ops.opsArray.length) {
+        for(var i = 1, j = 0; i < scene.cals.length; i+=2, j++) {
+            scene.cals[i] = playerOps[j];
+        }
+        if(scene.ans() == ans)
+            return true;
+    }
+
+    return false;
+}
+
+function reset() {
+    progressWidth = 0;
+    playerOps = [];
+    spanId = 1;
+
+}
+
+function update() {
+    scene = newScene();
+    ans = scene.ans();
+    $('#cal').empty();
+    showCal(scene);
+
+}
 
 $(function() {
-    var increase;
-    var w = 0;
+    _init();
 
     $('#start').click(function() {
-        event.preventDefault();
-        times++;
         $(this).hide();
         $('#bar').show();
 
-        increase = setInterval(function() {
-            w += 5;
-            $('#progress').css('width', w + 'px');
-            if (w > 520) {
-                console.log('game over');
-                clearInterval(increase);
-                setTimeout(function() {
-                    w = 0;
-                    $('#progress').css('width',0);
-                }, 1000);
-            }
-        }, 50);
+        requestAnimationFrame(loop);
     });
 
+    $('#add').click(function() {
+        putIn('+');
+    });
+    $('#sub').click(function() {
+        putIn('-');
+    })
+
 });
-///game-manager
-
-var times = 0;
-var scores = [];
-
-function main() {
-    _init();
-}
 
 function _init() {
-    var newScene = scene();
+    scene = newScene();
+    ans = scene.ans();
     drawSke();
-    showCal(newScene);
+    showCal(scene);
     setButton(times);
 }
-
-main();
-
