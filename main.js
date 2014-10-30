@@ -154,7 +154,8 @@ function setButton(times) {
 }
 ///Global variables
 var scene, progressWidth = 0, times = 0, frames = 0;
-var playerOps = [], spanId = 1, ans; // = scene.ans();
+var playerOps = [], spanId = 1, ans;
+var score = 0, lose = false;
 
 ///player init
 function putIn(type) {
@@ -164,7 +165,7 @@ function putIn(type) {
     spanId += 2;
 }
 
-
+var runGame;
 ///loop game
 function loop() {
     if(frames++ % 3 == 0) {
@@ -173,14 +174,16 @@ function loop() {
     }
 
     if(fini()) {
+        score++;
         reset();
         update();
     }
 
-    if(progressWidth > 520) {
+    if(lose || progressWidth > 520) {
         console.log('game over');
-
-       cancelRequestAnimationFrame(loop);
+        //play again
+        showResult();
+        cancelRequestAnimationFrame(loop);
     }
 
     requestAnimationFrame(loop);
@@ -188,31 +191,16 @@ function loop() {
 
 
 function fini() {
-
-    /*function equal(a1, a2) {
-        if(a1) {
-            if(a1.length == a2.length) {
-                for(var i = 0; i < a2.length; i++)
-                    if(a1[i].type != a2[i].type) {
-                        return false;
-                    }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    if(equal(playerOps, scene.Ops.opsArray)){
-        console.log('next level');
-        return true;
-    }*/
-
     if(playerOps.length == scene.Ops.opsArray.length) {
         for(var i = 1, j = 0; i < scene.cals.length; i+=2, j++) {
-            scene.cals[i] = playerOps[j];
+            if(playerOps[j])
+                scene.cals[i] = playerOps[j];
         }
+
         if(scene.ans() == ans)
             return true;
+
+        lose = true;
     }
 
     return false;
@@ -237,11 +225,13 @@ $(function() {
     _init();
 
     $('#start').click(function() {
+        console.log('new game');
+        times++;
         $(this).hide();
         $('#bar').show();
 
         requestAnimationFrame(loop);
-    });
+});
 
     $('#add').click(function() {
         putIn('+');
@@ -258,4 +248,22 @@ function _init() {
     drawSke();
     showCal(scene);
     setButton(times);
+}
+
+function showResult() {
+    $('#bar').hide();
+//    $('#start').remove();
+//    setButton(times);
+    var pop = elt('div', 'game-over', 'game-over');
+    var p1 = elt('p');
+    p1.textContent = "Game Over";
+    var p2 = elt('p');
+    p2.textContent = "Your Score: " + score;
+    pop.appendChild(p1);
+    pop.appendChild(p2);
+    $('body').append(pop);
+
+    $("#start").remove();
+    setButton(times);
+    $('#start').find('a').attr('href', '');
 }
