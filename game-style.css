@@ -89,7 +89,7 @@ body {
 .control {
     display: none;
     position: relative;
-    /*padding : 10px 0;*/
+    padding : 5px 0;
     background: #2ca5d4;
     width: 520px;
     margin: 30px auto;
@@ -98,7 +98,7 @@ body {
 }
 
 .control .ctrl-button {
-    font-size: 40px;
+    font-size: 35px;
     color: #fff;
     text-transform: uppercase;
     text-decoration: none;
@@ -132,5 +132,21 @@ body {
     height: 50px;
     background-color: #2980b9;
     border-radius: 5px;
+}
+
+/**/
+
+.game-over {
+    background: #87D37C;
+    width: 520px;
+    margin: 20px auto;
+    padding: 15px 0;
+    box-shadow: 6px 6px #3FC380;
+    border-radius: 10px;
+}
+
+p {
+    font-size: 28px;
+    color: #fff;
 }
 
