@@ -16,7 +16,7 @@ body {
     background-color: #fff;
     width: 520px;
     height: 350px;
-    margin: 30px auto;
+    margin: 20px auto;
     position: relative;
     border-radius: 10px;
     box-shadow: 6px 6px #ECF0F1;
@@ -150,3 +150,11 @@ p {
     color: #fff;
 }
 
+.new {
+    position: absolute;
+    top: 465px;
+    margin-left: 10px;
+    font-size: 32px;
+    text-transform: uppercase;
+    color: #cb4e4e;
+}
