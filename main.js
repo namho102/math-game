@@ -1,4 +1,4 @@
-///
+/*Game Objects*/
 
 function Cal() {
     this.cals =  [];
@@ -86,7 +86,7 @@ function Numbers(ops) {
 }
 
 
-//DOM Display
+/* DOM Display */
 
 function elt(name, className, idName) {
     var elt = document.createElement(name);
@@ -152,12 +152,12 @@ function setButton(times) {
     $(b).show();
 
 }
-///Global variables
+/*Global variables*/
 var scene, progressWidth = 0, times = 0, frames = 0;
 var playerOps = [], spanId = 1, ans;
 var score = 0, lose = false, best;
 
-///player init
+/*player init*/
 function putIn(type) {
     playerOps.push(new operator(type));
     var id = '#' + spanId;
@@ -166,7 +166,7 @@ function putIn(type) {
 }
 
 var runGame;
-///loop game
+/*loop game*/
 function loop() {
     if(frames++ % 3 == 0) {
         progressWidth += 5;
@@ -198,7 +198,7 @@ function fini() {
 
     return false;
 }
-
+/*game control*/
 function reset() {
     progressWidth = 0;
     playerOps = [];
@@ -213,44 +213,6 @@ function update() {
     showCal(scene);
 
 }
-
-$(function() {
-    var playing = false;
-    _init();
-
-    $('#start').click(function() {
-        console.log('new game');
-        playing = true;
-        times++;
-
-        $(this).hide();
-        $('#bar').show();
-
-        runGame = requestAnimationFrame(loop);
-});
-
-    var getAns = setInterval(function() {
-        if(playing) {
-            if(lose || progressWidth > 520) {
-                console.log('game over');
-                //play again
-                showResult();
-                clearInterval(getAns);
-
-                cancelAnimationFrame(runGame);
-            }
-        }
-    }, 10);
-
-
-    $('#add').click(function() {
-        putIn('+');
-    });
-    $('#sub').click(function() {
-        putIn('-');
-    })
-
-});
 
 function _init() {
     scene = newScene();
@@ -310,5 +272,42 @@ function updateScore() {
     }
 }
 
-/*
-to be countinued*/
+/*main*/
+
+$(function() {
+    var playing = false;
+    _init();
+
+    $('#start').click(function() {
+        console.log('new game');
+        playing = true;
+        times++;
+
+        $(this).hide();
+        $('#bar').show();
+
+        runGame = requestAnimationFrame(loop);
+    });
+
+    var getAns = setInterval(function() {
+        if(playing) {
+            if(lose || progressWidth > 520) {
+                console.log('game over');
+                //play again
+                showResult();
+                clearInterval(getAns);
+
+                cancelAnimationFrame(runGame);
+            }
+        }
+    }, 10);
+
+
+    $('#add').click(function() {
+        putIn('+');
+    });
+    $('#sub').click(function() {
+        putIn('-');
+    })
+});
+
