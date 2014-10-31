@@ -1,4 +1,4 @@
-//Game-Object
+///
 
 function Cal() {
     this.cals =  [];
@@ -97,6 +97,11 @@ function elt(name, className, idName) {
     return elt;
 }
 
+//function display(ops) {
+//    drawSke();
+////    showCal(ops);
+////    setButton();
+//}
 
 var wrapper = $("#game");
 
@@ -160,7 +165,7 @@ function putIn(type) {
     spanId += 2;
 }
 
-/* var runGame; */ 
+var runGame;
 ///loop game
 function loop() {
     if(frames++ % 3 == 0) {
@@ -174,14 +179,7 @@ function loop() {
         update();
     }
 
-    if(lose || progressWidth > 520) {
-        console.log('game over');
-        //play again 
-        showResult();
-        cancelRequestAnimationFrame(loop); //error
-    }
-
-    requestAnimationFrame(loop);
+    runGame = requestAnimationFrame(loop);
 };
 
 
@@ -217,16 +215,32 @@ function update() {
 }
 
 $(function() {
+    var playing = false;
     _init();
 
     $('#start').click(function() {
         console.log('new game');
+        playing = true;
         times++;
         $(this).hide();
         $('#bar').show();
 
-        requestAnimationFrame(loop);
+        runGame = requestAnimationFrame(loop);
 });
+
+    var getAns = setInterval(function() {
+        if(playing) {
+            if(lose || progressWidth > 520) {
+                console.log('game over');
+                //play again
+                showResult();
+                clearInterval(getAns);
+
+                cancelAnimationFrame(runGame);
+            }
+        }
+    }, 10);
+
 
     $('#add').click(function() {
         putIn('+');
@@ -262,3 +276,6 @@ function showResult() {
     setButton(times);
     $('#start').find('a').attr('href', '');
 }
+
+/*
+to be countinued*/
