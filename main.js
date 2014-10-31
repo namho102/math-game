@@ -222,6 +222,7 @@ $(function() {
         console.log('new game');
         playing = true;
         times++;
+        
         $(this).hide();
         $('#bar').show();
 
