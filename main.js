@@ -155,7 +155,7 @@ function setButton(times) {
 ///Global variables
 var scene, progressWidth = 0, times = 0, frames = 0;
 var playerOps = [], spanId = 1, ans;
-var score = 0, lose = false;
+var score = 0, lose = false, best;
 
 ///player init
 function putIn(type) {
@@ -222,7 +222,7 @@ $(function() {
         console.log('new game');
         playing = true;
         times++;
-        
+
         $(this).hide();
         $('#bar').show();
 
@@ -261,21 +261,53 @@ function _init() {
 }
 
 function showResult() {
+    updateScore();
+
     $('#bar').hide();
 //    $('#start').remove();
 //    setButton(times);
+
     var pop = elt('div', 'game-over', 'game-over');
-    var p1 = elt('p');
-    p1.textContent = "Game Over";
-    var p2 = elt('p');
-    p2.textContent = "Your Score: " + score;
-    pop.appendChild(p1);
-    pop.appendChild(p2);
+    var p = [];
+    for(var i = 0; i < 3; i++) {
+        p[i] = elt('p');
+        pop.appendChild(p[i]);
+    }
+
+    p[0].textContent = "Game Over";
+    p[1].textContent = "Score: " + score;
+    p[2].textContent = "Best : " + JSON.parse(localStorage["high-score"]);
+
+    if(best) {
+        console.log('new high score');
+        var newBest = elt('span', 'new');
+        $(newBest).text('New');
+        $(p[2]).append(newBest);
+    }
+
     $('body').append(pop);
 
     $("#start").remove();
     setButton(times);
     $('#start').find('a').attr('href', '');
+}
+
+function updateScore() {
+    var highscore = false;
+    best = false;
+
+    if(localStorage["high-score"]) {
+        highscore = JSON.parse(localStorage["high-score"]);
+        if(score > highscore) {
+            highscore = score;
+            best = true;
+        }
+        localStorage["high-score"] = JSON.stringify(highscore);
+    }
+    else {
+        highscore = score;
+        localStorage["high-score"] = JSON.stringify(highscore);
+    }
 }
 
 /*
