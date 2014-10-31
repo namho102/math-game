@@ -1,3 +1,2 @@
-math-game
-A game of adding and subtracting
+A game about adding and subtracting
 ================================
