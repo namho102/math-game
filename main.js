@@ -238,7 +238,7 @@ function showResult() {
 
     p[0].textContent = "Game Over";
     p[1].textContent = "Score: " + score;
-    p[2].textContent = "Best : " + JSON.parse(localStorage["high-score"]);
+    p[2].textContent = "Best: " + JSON.parse(localStorage["high-score"]);
 
     if(best) {
         console.log('new high score');
