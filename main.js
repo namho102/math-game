@@ -300,7 +300,7 @@ $(function() {
                 cancelAnimationFrame(runGame);
             }
         }
-    }, 10);
+    }, 50);
 
 
     $('#add').click(function() {
@@ -308,6 +308,6 @@ $(function() {
     });
     $('#sub').click(function() {
         putIn('-');
-    })
+    });
 });
 
