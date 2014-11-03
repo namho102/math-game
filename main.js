@@ -36,17 +36,6 @@ function Cal() {
     }
 };
 
-//Cal.prototype.toString = function() {
-//    var s = "";
-//    for(var i = 0; i < this.cals.length; i++) {
-//        if(i % 2 == 0)
-//            s += this.cals[i];
-//        else s += this.cals[i].type;
-//        s += " ";
-//    }
-//    return s;
-//};
-
 function newScene() {
     var c = new Cal();
     c.init();
@@ -97,12 +86,6 @@ function elt(name, className, idName) {
     return elt;
 }
 
-//function display(ops) {
-//    drawSke();
-////    showCal(ops);
-////    setButton();
-//}
-
 var wrapper = $("#game");
 
 function drawSke() {
@@ -152,6 +135,7 @@ function setButton(times) {
     $(b).show();
 
 }
+
 /*Global variables*/
 var scene, progressWidth = 0, times = 0, frames = 0;
 var playerOps = [], spanId = 1, ans;
@@ -195,15 +179,14 @@ function fini() {
 
         lose = true;
     }
-
     return false;
 }
+
 /*game control*/
 function reset() {
     progressWidth = 0;
     playerOps = [];
     spanId = 1;
-
 }
 
 function update() {
@@ -211,12 +194,12 @@ function update() {
     ans = scene.ans();
     $('#cal').empty();
     showCal(scene);
-
 }
 
 function _init() {
     scene = newScene();
     ans = scene.ans();
+    
     drawSke();
     showCal(scene);
     setButton(times);
