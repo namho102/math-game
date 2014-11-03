@@ -304,10 +304,12 @@ $(function() {
 
 
     $('#add').click(function() {
-        putIn('+');
+        if(playing)
+            putIn('+');
     });
     $('#sub').click(function() {
-        putIn('-');
+        if(playing)
+            putIn('-');
     });
 });
 
